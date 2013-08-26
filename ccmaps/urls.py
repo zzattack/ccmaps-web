@@ -7,10 +7,12 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^upload/', include('ccmaps.map_uploader')),
-    url(r'^news/', include('ccmaps.news')),
-    url(r'^discuss/', include('ccmaps.discussions')),
+    url(r'^maps/', include('ccmaps.maps.urls')),
+    url(r'^news/', include('ccmaps.news.urls')),
+    url(r'^discuss/', include('ccmaps.discussions.urls')),
+
     url(r'^accounts/', include('registration.backends.default.urls')),
+    url(r'^profiles/', include('profiles.urls')),
 
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),

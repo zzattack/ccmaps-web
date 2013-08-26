@@ -12,11 +12,11 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'ra2maps',                    # Or path to database file if using sqlite3.
-        'USER': 'ra2maps',                    # Not used with sqlite3.
-        'PASSWORD': 'pbdjHcTAeLLdyCuF',       # Not used with sqlite3.
+        'NAME': 'cncmaps',                    # Or path to database file if using sqlite3.
+        'USER': 'cncmaps',                    # Not used with sqlite3.
+        'PASSWORD': 'v3F6xmdf5Z9M',           # Not used with sqlite3.
         'HOST': '10.31.45.10',                # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'PORT': '',                           # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -72,6 +72,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+	'ccmaps/static/',
 )
 
 # List of finder classes that know how to find static files in
@@ -104,7 +105,6 @@ ROOT_URLCONF = 'ccmaps.urls'
 
 TEMPLATE_DIRS = (
 	'ccmaps/templates',
-	'templates',
 )
 
 INSTALLED_APPS = (
@@ -116,15 +116,20 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
+
 	'registration',
+	'profiles',
+	'south',
+    'easy_thumbnails',
 	
 	'ccmaps.home',
-	'ccmaps.map_uploader',
+	'ccmaps.maps',
 	'ccmaps.discussions',
 	'ccmaps.news',
 )
 
 ACCOUNT_ACTIVATION_DAYS = 4
+AUTH_PROFILE_MODULE = 'home.UserProfile'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -148,3 +153,8 @@ LOGGING = {
         },
     }
 }
+
+ACCOUNT_ACTIVATION_DAYS = 2
+EMAIL_HOST = '10.31.45.10'
+DEFAULT_FROM_EMAIL = 'cncmaps@zzattack.org'
+LOGIN_REDIRECT_URL = '/'

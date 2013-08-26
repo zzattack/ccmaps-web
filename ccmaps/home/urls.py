@@ -1,5 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
+from ccmaps.home.views import *
 
 urlpatterns = patterns('',
-	(r'^$', 'index'),
+	url(r'^$', index),
+	url(r'^contact$',  contact),
 )

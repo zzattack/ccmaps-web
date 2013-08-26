@@ -1,44 +1,23 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from ccmaps.maps.models import GAMES    
 
-class CNCMap(models.Model):
-    name = models.CharField(max_length=50)
-    uploader = models.ForeignKey(User)
-    first_uploaded = models.DateField()
-    author = models.CharField(max_length=50)
-    description = models.TextField()
-        
+class UserProfile(models.Model):
+    # This field is required.
+    user = models.OneToOneField(User)
+    favorite_game = models.CharField(max_length=50, choices=GAMES, blank=False)
+    website = models.URLField(verify_exists = False, default='', blank=True)
+    gender = models.CharField(max_length=1, choices=(('M', 'Male'), ('F', 'Female'), (' ', 'Not specified')), default='M', blank=True)
+    location = models.CharField(max_length=100, default='', blank=True)
+    bio = models.TextField(default='', blank=True)
+    def get_absolute_url(self):
+        return ('profiles_profile_detail', (), { 'username': self.user.username })
+    get_absolute_url = models.permalink(get_absolute_url)
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
     
-class CNCMapRevision(models.Model):
-    map = models.ForeignKey(CNCMap)
-    version_serial = models.IntegerField()
-    uploaded = models.DateField()
-    change_desc = models.TextField()
-    file = models.FileField(upload_to="user_maps")
-    metadata = models.ForeignKey("CNCMapMetadata")
-    
-class CNCMapMetadata(models.Model):
-    GAMES = (
-        (u'RA2', u'Red Alert 2'),
-        (u'YR', u'Yuri''s Revenge'),
-        (u'TS', u'Tiberian Sun'),
-        (u'FS', u'Firestorm'),
-    )
-    
-    THEATERS = (
-        (u'TEM', u'Temperate'),
-        (u'SNO', u'Snow'),
-        (u'URB', u'Urban'),
-        (u'UBN', u'New Urban'),
-        (u'LUN', u'Lunar'),
-        (u'DES', u'Desert'),
-    )
-	
-    min_players = models.IntegerField()
-    max_player = models.IntegerField()
-    theater = models.CharField(max_length=3, choices=THEATERS)
-    game = models.CharField(max_length=50, choices=GAMES)
-    ore_estimate = models.IntegerField()
-    gems_estimate = models.IntegerField()
-    num_oil_derricks = models.IntegerField()
-    height_variation_idx = models.FloatField()
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+post_save.connect(create_user_profile, sender=User)
