@@ -1,4 +1,4 @@
-# Django settings for ccmaps project.
+# Django settings for ccmaps_web project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -40,8 +40,11 @@ SITE_ID = 1
 USE_I18N = False
 
 # If you set this to False, Django will not format dates, numbers and
-# calendars according to the current locale
+# calendars according to the current locale.
 USE_L10N = True
+
+# If you set this to False, Django will not use timezone-aware datetimes.
+USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
@@ -61,11 +64,6 @@ STATIC_ROOT = ''
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
-
-# URL prefix for admin static files -- CSS, JavaScript and images.
-# Make sure to use a trailing slash.
-# Examples: "http://foo.com/static/admin/", "/static/admin/".
-ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -99,11 +97,19 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    # Uncomment the next line for simple clickjacking protection:
+    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 ROOT_URLCONF = 'ccmaps.urls'
 
+# Python dotted path to the WSGI application used by Django's runserver.
+WSGI_APPLICATION = 'ccmaps.wsgi.application'
+
 TEMPLATE_DIRS = (
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
 	'ccmaps/templates',
 )
 
@@ -114,34 +120,37 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
+    # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
-
-	'registration',
-	'profiles',
+    
 	'south',
-    'easy_thumbnails',
+	'registration',
 	
-	'ccmaps.home',
 	'ccmaps.maps',
 	'ccmaps.discussions',
 	'ccmaps.news',
+	'ccmaps.home',
 )
-
-ACCOUNT_ACTIVATION_DAYS = 4
-AUTH_PROFILE_MODULE = 'home.UserProfile'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
-# the site admins on every HTTP 500 error.
+# the site admins on every HTTP 500 error when DEBUG=False.
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
+            'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         }
     },
@@ -154,7 +163,8 @@ LOGGING = {
     }
 }
 
-ACCOUNT_ACTIVATION_DAYS = 2
+ACCOUNT_ACTIVATION_DAYS = 4
+AUTH_PROFILE_MODULE = 'home.UserProfile'
 EMAIL_HOST = '10.31.45.10'
 DEFAULT_FROM_EMAIL = 'cncmaps@zzattack.org'
 LOGIN_REDIRECT_URL = '/'

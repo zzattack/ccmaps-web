@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, include, url
+from coffin.conf.urls import *
 from ccmaps.home.views import *
 
 urlpatterns = patterns('',

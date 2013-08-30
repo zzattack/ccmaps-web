@@ -1,1 +1,1 @@
-python manage.py runserver
+c:\python27\python manage.py runserver
