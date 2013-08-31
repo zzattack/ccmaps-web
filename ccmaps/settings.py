@@ -132,6 +132,7 @@ INSTALLED_APPS = (
 	'ccmaps.discussions',
 	'ccmaps.news',
 	'ccmaps.home',
+	'ccmaps.tool',
 )
 
 # A sample logging configuration. The only tangible logging

@@ -1,0 +1,6 @@
+<version>
+  <version_string>{{version}}</version_string>
+  <release_date>{{release_date}}</release_date>
+  <release_notes>{{release_notes |e}}</release_notes>
+  <url>{{url |e}}</url>
+</version>
