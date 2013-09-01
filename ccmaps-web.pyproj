@@ -48,6 +48,7 @@
     <Compile Include="ccmaps\maps\urls.py" />
     <Compile Include="ccmaps\maps\views.py" />
     <Compile Include="ccmaps\maps\__init__.py" />
+    <Compile Include="ccmaps\tool\admins.py" />
     <Compile Include="ccmaps\tool\models.py" />
     <Compile Include="ccmaps\tool\urls.py" />
     <Compile Include="ccmaps\tool\views.py" />
