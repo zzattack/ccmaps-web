@@ -5,5 +5,5 @@ urlpatterns = patterns('',
 	(r'^$', 'index'),
 	(r'^version_check$', version_check),
 	(r'^get_latest$', get_latest),
-	(r'^report_failure', report_failure),
+	(r'^report_failure$', report_failure),
 )
