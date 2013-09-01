@@ -1,10 +1,12 @@
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.template import RequestContext, Context
 from coffin.shortcuts import render_to_response
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage, send_mail
 from django.core.exceptions import *
 from models import *
 from datetime import datetime
+
 
 # Create your views here.
 
@@ -24,6 +26,28 @@ def get_latest(request):
     latest = ProgramVersion.objects.all().order_by('-version')[0]
     return HttpResponseRedirect(latest.file.url)
 
-def report_failure(request):
-    latest = ProgramVersion.objects.all().order_by('-version')[0]
-    return HttpResponseRedirect(latest.file.url)
+@csrf_exempt
+def report_bug(request):
+    if request.method == 'GET':
+        return HttpResponse('expected POST')
+    
+    message = 'CNCMaps Renderer Bug Report Notification\r\n'
+    message += '\r\n'
+    message += 'A new bug report was generated at ' + unicode(datetime.now().replace(microsecond=0))
+    message += '\r\n'
+    
+    message += 'Input map name: ' + request.POST['input_map'] + '\r\n'
+    message += 'Commandline used: ' + request.POST['commandline'] + '\r\n'
+    message += 'Renderer_version: ' + request.POST['renderer_version'] + '\r\n'
+    message += '\r\n'
+    
+    message += '\r\n'
+    message += '\r\nThis mail was sent automatically by the CNCMaps Portal @ cnc-maps.com'
+
+    email = EmailMessage(subject='[CNCMaps] Bug report', body=message, from_email='bugs@cncmaps.net', to=['frank@zzattack.org'])
+    email.attach(request.POST['input_name'], request.POST['input_map'], 'text/plain')
+    email.attach('log.txt', request.POST['log_text'], 'text/plain')
+
+    email.send(fail_silently=False)
+
+    return HttpResponse('OK')
