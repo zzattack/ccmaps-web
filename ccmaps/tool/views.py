@@ -23,3 +23,7 @@ def version_check(request):
 def get_latest(request):
     latest = ProgramVersion.objects.all().order_by('-version')[0]
     return HttpResponseRedirect(latest.file.url)
+
+def report_failure(request):
+    latest = ProgramVersion.objects.all().order_by('-version')[0]
+    return HttpResponseRedirect(latest.file.url)

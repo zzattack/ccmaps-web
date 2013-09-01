@@ -1,4 +1,5 @@
 from coffin.conf.urls import *
+from settings import *
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -15,3 +16,10 @@ urlpatterns = patterns('',
     url(r'^tool/', include('ccmaps.tool.urls')),
     url(r'^', include('ccmaps.home.urls')),
 )
+
+if settings.DEBUG:
+    # static files (images, css, javascript, etc.)
+    urlpatterns += patterns('',
+        (r'^media/(?P<path>.*)$', 'django.views.static.serve', { 'document_root': settings.MEDIA_ROOT })
+        (r'^static/(?P<path>.*)$', 'django.views.static.serve', { 'document_root': settings.STATIC_ROOT })                            
+        )
