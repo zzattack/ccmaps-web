@@ -36,7 +36,7 @@ def report_bug(request):
     message += 'A new bug report was generated at ' + unicode(datetime.now().replace(microsecond=0))
     message += '\r\n'
     
-    message += 'Input map name: ' + request.POST['input_map'] + '\r\n'
+    message += 'Input map name: ' + request.POST['input_name'] + '\r\n'
     message += 'Commandline used: ' + request.POST['commandline'] + '\r\n'
     message += 'Renderer_version: ' + request.POST['renderer_version'] + '\r\n'
     message += '\r\n'
