@@ -30,7 +30,13 @@ def get_latest(request):
 def report_bug(request):
     if request.method == 'GET':
         return HttpResponse('expected POST')
-    
+
+    if 'HTTP_X_REAL_IP' in request.META:
+        ip = request.META['HTTP_X_REAL_IP']
+    else:
+        ip = request.META['REMOTE_ADDR']    
+    subj = '[CNCMaps] Bug report generated from ip %s' % (ip)   
+
     message = 'CNCMaps Renderer Bug Report Notification\r\n'
     message += '\r\n'
     message += 'A new bug report was generated at ' + unicode(datetime.now().replace(microsecond=0))
@@ -44,7 +50,7 @@ def report_bug(request):
     message += '\r\n'
     message += '\r\nThis mail was sent automatically by the CNCMaps Portal @ cnc-maps.com'
 
-    email = EmailMessage(subject='[CNCMaps] Bug report', body=message, from_email='bugs@cncmaps.net', to=['frank@zzattack.org'])
+    email = EmailMessage(subject=subj, body=message, from_email='bugs@cncmaps.net', to=['frank@zzattack.org'])
     email.attach(request.POST['input_name'], request.POST['input_map'], 'text/plain')
     email.attach('log.txt', request.POST['log_text'], 'text/plain')
 
