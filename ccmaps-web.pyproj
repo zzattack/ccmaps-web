@@ -79,6 +79,7 @@
     <Folder Include="ccmaps\templates\" />
     <Folder Include="ccmaps\tool\" />
     <Folder Include="ccmaps\tool\templates\" />
+    <Folder Include="ccmaps\tool\templates\tool\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ccmaps\home\templates\home\index.html" />
@@ -89,7 +90,8 @@
     <Content Include="ccmaps\templates\404.html" />
     <Content Include="ccmaps\templates\500.html" />
     <Content Include="ccmaps\templates\base.html" />
-    <Content Include="ccmaps\tool\templates\index.html" />
+    <Content Include="ccmaps\tool\templates\tool\index.xml" />
+    <Content Include="ccmaps\tool\templates\tool\version_check.xml" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="..\ccmaps-env\">

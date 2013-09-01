@@ -10,8 +10,8 @@ urlpatterns = patterns('',
     (r'^accounts/', include('registration.backends.simple.urls')),
     
     url(r'^/news', include('ccmaps.news.urls')),
-    url(r'^/news', include('ccmaps.tool.urls')),
     url(r'^/maps', include('ccmaps.maps.urls')),
-    url(r'^/', include('ccmaps.maps.urls')),
+    url(r'^/discussions', include('ccmaps.discussions.urls')),
+    url(r'^/tool', include('ccmaps.tool.urls')),
     url(r'^', include('ccmaps.home.urls')),
 )

@@ -7,7 +7,7 @@ def version_check(request):
     latest_program = ProgramVersion.objects.all().order_by('-version')[0]
     template_vars = { 
                      'version': latest.version,
-                     'release_date': latest.date,
+                     'release_date': datetime.strptime(latest.date, "%Y-%m-%d").date(),
                      'release_notes': latest.release_notes,
                      'url': latest.file.url,
                      }
