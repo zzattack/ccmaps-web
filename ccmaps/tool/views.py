@@ -39,7 +39,9 @@ def report_bug(request):
     if request.method == 'GET':
         return HttpResponse('expected POST')
 
-    if 'HTTP_X_REAL_IP' in request.META:
+    if 'HTTP_X_FORWARDED_FOR' in request.META:
+        ip = request.META['HTTP_X_FORWARDED_FOR'].split(',')[0]
+    elif 'HTTP_X_REAL_IP' in request.META:
         ip = request.META['HTTP_X_REAL_IP']
     else:
         ip = request.META['REMOTE_ADDR']    

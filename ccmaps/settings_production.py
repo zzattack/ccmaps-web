@@ -1,6 +1,6 @@
 # Django settings for ccmaps_web project.
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -9,13 +9,15 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+ALLOWED_HOSTS = ('127.0.0.1', '10.31.45.10', '.zzattack.org', 'cnc-maps.net')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'cncmaps',                    # Or path to database file if using sqlite3.
         'USER': 'cncmaps',                    # Not used with sqlite3.
         'PASSWORD': 't8ZvMtHz5bFTFQb5',       # Not used with sqlite3.
-        'HOST': '10.31.45.10',                # Set to empty string for localhost. Not used with sqlite3.
+        'HOST': '10.31.45.10',                           # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                           # Set to empty string for default. Not used with sqlite3.
     }
 }
@@ -84,32 +86,12 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '0tdmtkk)nakzt7m$c3atxna7by9%^9w!zy=wp)ays&u%2q&*rj'
 
-TEMPLATES = [
-    {
-        "BACKEND": "django_jinja.backend.Jinja2",
-        "APP_DIRS": True,
-        "OPTIONS": {
-            "match_extension": ".jinja",
-        }
-    },
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.contrib.auth.context_processors.auth',
-                'django.template.context_processors.debug',
-                'django.template.context_processors.i18n',
-                'django.template.context_processors.media',
-                'django.template.context_processors.static',
-                'django.template.context_processors.tz',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
-
+# List of callables that know how to import templates from various sources.
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+#     'django.template.loaders.eggs.Loader',
+)
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -144,12 +126,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     
-	# 'registration',
-	'debug_toolbar',
-	'django_extensions', 
-
-	'ccmaps.home',
 	'ccmaps.maps',
+	'ccmaps.home',
 	'ccmaps.tool',
 )
 

@@ -9,14 +9,6 @@ class Map(models.Model):
     description = models.TextField()
         
     
-class MapRevision(models.Model):
-    map = models.ForeignKey(Map)
-    version_serial = models.IntegerField()
-    uploaded = models.DateField()
-    change_desc = models.TextField()
-    file = models.FileField(upload_to='user_maps')
-    properties = models.ForeignKey('MapProperties')
-    
 class MapProperties(models.Model):
     GAMES = (
         (u'RA2', u'Red Alert 2'),
@@ -44,3 +36,13 @@ class MapProperties(models.Model):
     gems_estimate = models.IntegerField()
     num_oil_derricks = models.IntegerField()
     height_variation_idx = models.FloatField()
+	
+	
+class MapRevision(models.Model):
+    map = models.ForeignKey(Map)
+    version_serial = models.IntegerField()
+    uploaded = models.DateField()
+    change_desc = models.TextField()
+    file = models.FileField(upload_to='user_maps')
+    properties = models.ForeignKey(MapProperties)
+    
