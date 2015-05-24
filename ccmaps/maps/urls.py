@@ -1,4 +1,4 @@
-from coffin.conf.urls import *
+from django.conf.urls import *
 
 urlpatterns = patterns('',
 	(r'^$', 'index'),
