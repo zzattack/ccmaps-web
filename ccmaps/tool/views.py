@@ -1,15 +1,14 @@
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.template import RequestContext, Context
-from coffin.shortcuts import render_to_response
+from django.shortcuts import render_to_response
 from django.core.mail import EmailMessage, send_mail
 from django.core.exceptions import *
-from models import *
+from .models import *
 from datetime import datetime
 
-
-# Create your views here.
-
+def index(request):
+	return render_to_response('tool/index.xml', {}, context_instance=RequestContext(request))
 
 def version_check(request):
     latest = ProgramVersion.objects.all().order_by('-version')[0]
@@ -25,6 +24,15 @@ def version_check(request):
 def get_latest(request):
     latest = ProgramVersion.objects.all().order_by('-version')[0]
     return HttpResponseRedirect(latest.file.url)
+
+def validate_mail_address(email):
+    from django.core.validators import validate_email
+    from django.core.exceptions import ValidationError
+    try:
+        validate_email( email )
+        return True
+    except ValidationError:
+        return False
 
 @csrf_exempt
 def report_bug(request):
@@ -50,7 +58,17 @@ def report_bug(request):
     message += '\r\n'
     message += '\r\nThis mail was sent automatically by the CNCMaps Portal @ cnc-maps.com'
 
-    email = EmailMessage(subject=subj, body=message, from_email='bugs@cncmaps.net', to=['frank@zzattack.org'])
+    reply_to = []
+    cc = []
+    if 'email' in request.POST:
+        submitter = request.POST['email']
+        if validate_mail_address(submitter):
+            cc.append(submitter)
+            reply_to.append(submitter)
+        else:
+            reply_to.append('noreply@cnc-maps.net')
+        
+    email = EmailMessage(subject=subj, body=message, from_email='bugs@cnc-maps.net', to=['frank@zzattack.org'], cc=cc, reply_to=reply_to)
     email.attach(request.POST['input_name'], request.POST['input_map'], 'text/plain')
     email.attach('log.txt', request.POST['log_text'], 'text/plain')
 
