@@ -19,7 +19,7 @@ def version_check(request):
                      'url': latest.file.url,
                      }
     
-    return render_to_response('tool/version_check.xml', template_vars, mimetype="text/xml")
+    return render_to_response('tool/version_check.xml', template_vars, content_type="text/xml")
 
 def get_latest(request):
     latest = ProgramVersion.objects.all().order_by('-version')[0]
