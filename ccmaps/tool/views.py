@@ -55,6 +55,8 @@ def report_bug(request):
     message += 'Input map name: ' + request.POST['input_name'] + '\r\n'
     message += 'Commandline used: ' + request.POST['commandline'] + '\r\n'
     message += 'Renderer_version: ' + request.POST['renderer_version'] + '\r\n'
+    if 'exception' in request.POST:
+        message += 'Exception: ' + request.POST['exception'] + '\r\n'
     message += '\r\n'
     
     message += '\r\n'
