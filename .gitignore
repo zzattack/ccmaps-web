@@ -1,4 +1,5 @@
-
 *.pyc
 /*.suo
 python*.core
+/venv
+/config/settings_production.py
