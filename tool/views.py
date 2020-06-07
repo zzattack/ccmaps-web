@@ -2,15 +2,14 @@ from datetime import datetime
 
 from django.core.mail import EmailMessage
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import *
 
-
 def index(request):
-	return render_to_response('tool/index.xml', {})
+	return render(request, 'tool/index.xml', {})
 
 
 def version_check(request):
@@ -22,7 +21,7 @@ def version_check(request):
 		'url': latest.file.url,
 	}
 
-	return render_to_response('tool/version_check.xml', template_vars, content_type="text/xml")
+	return render(request, 'tool/version_check.xml', template_vars, content_type="text/xml")
 
 
 def get_latest(request):
